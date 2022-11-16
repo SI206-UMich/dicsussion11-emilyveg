@@ -11,6 +11,8 @@ def setUpDatabase(db_name):
     cur = conn.cursor()
     return cur, conn
 
+    
+
 
 # Creates list of species ID's and numbers
 def create_species_table(cur, conn):
@@ -39,6 +41,8 @@ def create_species_table(cur, conn):
 # TASK 1
 # CREATE TABLE FOR PATIENTS IN DATABASE
 def create_patients_table(cur, conn):
+    cur.execute("DROP TABLE IF EXISTS Patients")
+    cur.execute("CREATE TABLE \"Patients\"(\"pet_id\" INTEGER PRIMARY KEY, \"name\" TEXT, \"species_id\" NUMBER, \"age\" INTEGER, \"cutness\" INTEGER, \"agressiveness\" NUMBER)")
     pass
 
 
