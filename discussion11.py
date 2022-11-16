@@ -42,7 +42,7 @@ def create_species_table(cur, conn):
 # CREATE TABLE FOR PATIENTS IN DATABASE
 def create_patients_table(cur, conn):
     cur.execute("DROP TABLE IF EXISTS Patients")
-    cur.execute("CREATE TABLE \"Patients\"(\"pet_id\" INTEGER PRIMARY KEY, \"name\" TEXT, \"species_id\" NUMBER, \"age\" INTEGER, \"cutness\" INTEGER, \"agressiveness\" NUMBER)")
+    cur.execute("CREATE TABLE \"Patients\"(\"pet_id\" INTEGER PRIMARY KEY, \"name\" TEXT, \"species_id\" NUMBER, \"age\" INTEGER, \"cuteness\" INTEGER, \"agressiveness\" NUMBER)")
     pass
 
 
