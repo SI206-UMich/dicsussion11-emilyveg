@@ -42,13 +42,13 @@ def create_species_table(cur, conn):
 # CREATE TABLE FOR PATIENTS IN DATABASE
 def create_patients_table(cur, conn):
     cur.execute("DROP TABLE IF EXISTS Patients")
-    cur.execute("CREATE TABLE \"Patients\"(\"pet_id\" INTEGER PRIMARY KEY, \"name\" TEXT, \"species_id\" NUMBER, \"age\" INTEGER, \"cuteness\" INTEGER, \"agressiveness\" NUMBER)")
+    cur.execute("CREATE TABLE \"Patients\"(\"pet_id\" INTEGER PRIMARY KEY, \"name\" TEXT, \"species_id\" NUMBER, \"age\" INTEGER, \"cuteness\" INTEGER, \"aggressiveness\" NUMBER)")
     pass
 
 
 # ADD FLUFFLE TO THE TABLE
 def add_fluffle(cur, conn):
-    cur.execute("INSERT INTO Patients (pet_id, name, species_id, age, cuteness, agressiveness)VALUES (?,?,?,?,?,?)",(0,"Fluffle", 0,3,90,100)) #use question mark
+    cur.execute("INSERT INTO Patients (pet_id, name, species_id, age, cuteness, aggressiveness)VALUES (?,?,?,?,?,?)",(0,"Fluffle", 0,3,90,100)) #use question mark
     conn.commit()
     pass
     
@@ -65,13 +65,33 @@ def add_pets_from_json(filename, cur, conn):
     json_data = json.loads(file_data)
 
     # THE REST IS UP TO YOU
-    pass
+    patient_id = 1
+    for item in json_data:
+        name = item['name']
+        species = item['species']
+        age = int(item['age'])
+        cuteness = int(item['cuteness'])
+        aggressiveness = int(item['aggressiveness'])
+        
+        cur.execute('SELECT id FROM Species WHERE title = ?',(species,)) #(species,) is a tuple
+        species_id = int(cur.fetchone()[0])
+        # print(cur.fetchone())
+
+        # print(patient_id,name,species_id,age,cuteness,aggressiveness)
+        cur.execute("INSERT INTO Patients (pet_id, name, species_id, age, cuteness, aggressiveness)VALUES (?,?,?,?,?,?)",(patient_id,name,species_id,age,cuteness,aggressiveness))
+
+        patient_id += 1
 
 
 # TASK 3
 # CODE TO OUTPUT NON-AGGRESSIVE PETS
 def non_aggressive_pets(aggressiveness, cur, conn):
-    pass
+    cur.execute("SELECT name FROM Patients WHERE aggressiveness <= ?", (aggressiveness,))
+    rows = cur.fetchall()
+    non_aggressive_list = []
+    for row in rows:
+        non_aggressive_list.append(row[0])
+    return non_aggressive_list
 
 
 
